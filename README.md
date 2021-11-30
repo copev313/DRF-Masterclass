@@ -1,2 +1,2 @@
 # DRF-Masterclass
- Django Rest Framework Masterclass
+ Django REST Framework Masterclass
