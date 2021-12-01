@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Netflix",
+        "about": "Rent a DVD!",
+        "website": "http://www.netflix.com"
+    },
+    {
+        "id": 2,
+        "name": "Hulu",
+        "about": "An American streaming platform owned by The Walt Disney Company.",
+        "website": "http://www.hulu.com"
+    },
+    {
+        "id": 3,
+        "name": "Prime Video",
+        "about": "Offered as a standalone service or as part of Amazon's Prime subscription.",
+        "website": "https://www.amazon.com/Amazon-Video/b?ie=UTF8&node=2858778011"
+    }
+]
