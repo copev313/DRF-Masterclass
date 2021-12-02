@@ -20,6 +20,14 @@ class ReviewsList(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
+class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
 class StreamingPlatformAV(APIView):
 
     def get(self, request):
