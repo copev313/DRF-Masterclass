@@ -1,16 +1,34 @@
-from rest_framework import status
+from rest_framework import generics, mixins, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from watchlist_app.api.serializers import (StreamingPlatformSerializer,
+from watchlist_app.api.serializers import (ReviewSerializer,
+                                           StreamingPlatformSerializer,
                                            WatchListSerializer)
-from watchlist_app.models import StreamingPlatform, WatchList
+from watchlist_app.models import Review, StreamingPlatform, WatchList
+
+
+class ReviewsList(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 class StreamingPlatformAV(APIView):
 
     def get(self, request):
         platforms = StreamingPlatform.objects.all()
-        serializer = StreamingPlatformSerializer(platforms, many=True)
+        serializer = StreamingPlatformSerializer(
+            platforms,
+            many=True,
+            context={'request': request}
+        )
         return Response(serializer.data)
 
     def post(self, request):
@@ -31,7 +49,10 @@ class StreamingPlatformDetailsAV(APIView):
             return Response({ 'error': 'Streaming platform not found' },
                             status=status.HTTP_404_NOT_FOUND)
 
-        serializer = serializer = StreamingPlatformSerializer(platform)
+        serializer = StreamingPlatformSerializer(
+            platform,
+            context={'request': request}
+        )
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -74,7 +95,7 @@ class WatchDetailsAV(APIView):
             return Response({ 'error': 'Movie not found' },
                             status=status.HTTP_404_NOT_FOUND)
 
-        serializer = WatchListSerializer(movie)
+        serializer = WatchListSerializer(movie, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):
